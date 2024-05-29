@@ -7,7 +7,7 @@ class AppHelper
     {
         $response = [
         'success' => true,
-        'resData' => $result,
+        'data' => $result,
         'message' => $message,
         ];
         return response()->json($response, 200);

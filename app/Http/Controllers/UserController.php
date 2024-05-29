@@ -138,13 +138,14 @@ class UserController extends Controller
 
     public function VerifyUser(Request $request, $token){
         [$id, $user_token] = explode('|', $token, 2);
-        $user = User::find(PersonalAccessToken::where('token', hash('sha256', $user_token))->first()->tokenable);
+        $pat = PersonalAccessToken::where('token', hash('sha256', $user_token))->first()->tokenable;
+        $user = User::find($pat->id);
 
         // return $user;
-        if($user[0]->verification_code === $request->code){
-            $user[0]->verified = true;
+        if($user->verification_code === $request->code){
+            $user->verified = true;
             // $user[0]->email_verified_at = true;
-            $success = $user[0]->save();
+            $success = $user->save();
             return AppHelper::sendResponse(null, 'Account Verified Successfully');
         }else{
             return AppHelper::sendError('Account Verification failed, invalid otp supplied', ['Account Verification failed'], 400);
