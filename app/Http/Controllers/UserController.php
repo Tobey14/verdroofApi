@@ -143,6 +143,7 @@ class UserController extends Controller
         // return $user;
         if($user[0]->verification_code === $request->code){
             $user[0]->verified = true;
+            // $user[0]->email_verified_at = true;
             $success = $user[0]->save();
             return AppHelper::sendResponse(null, 'Account Verified Successfully');
         }else{
